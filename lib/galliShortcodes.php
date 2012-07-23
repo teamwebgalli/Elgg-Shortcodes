@@ -12,21 +12,22 @@
  */ 
  
 /**
- * Pdf embedding
- * Usage: [embedpdf width="600px" height="500px"]http://infolab.stanford.edu/pub/papers/google.pdf[/embedpdf]
+ * Embed PDF
+ * [embedpdf width="600px" height="500px"]http://infolab.stanford.edu/pub/papers/google.pdf[/embedpdf]
  */
-function embed_pdf_function($attr, $url) {
-   extract(shortcode_atts(array(
-       'width' => '640',
-       'height' => '480'
-   ), $attr));
+function embed_pdf_function($atts) {
+   extract(elgg_shortcode_atts(array(
+		'url' => 'http://',
+		'width' => '640',
+		'height' => '480'
+   ), $atts));
    return '<iframe src="http://docs.google.com/viewer?url=' . $url . '&embedded=true" style="width:' .$width. '; height:' .$height. ';">Your browser does not support iframes</iframe>';
 }
 elgg_add_shortcode('embedpdf', 'embed_pdf_function');
 
 /**
- * Show Charts 
- * Usage : [chart data="41.52,37.79,20.67,0.03" bg="F7F9FA" labels="Reffering+sites|Search+Engines|Direct+traffic|Other" colors="058DC7,50B432,ED561B,EDEF00" size="488x200" title="Traffic Sources" type="pie"]
+ * Embed Charts 
+ * [chart data="41.52,37.79,20.67,0.03" bg="F7F9FA" labels="Reffering+sites|Search+Engines|Direct+traffic|Other" colors="058DC7,50B432,ED561B,EDEF00" size="488x200" title="Traffic Sources" type="pie"]
  */ 
 function chart_shortcode( $atts ) {
 	extract(elgg_shortcode_atts(array(
@@ -71,13 +72,13 @@ function chart_shortcode( $atts ) {
 elgg_add_shortcode('chart', 'chart_shortcode');
 
 /**
- * Get snaps of webpages
- * Usage : [snap url="http://www.webgalli.com" alt="My description" w="400" h="300"]
+ * Snap Webpages
+ * [snap url="http://www.webgalli.com" alt="My description" w="400" h="300"]
  */ 
 function webpage_snaps($atts, $content = null) {
         extract(elgg_shortcode_atts(array(
 			"snap" => 'http://s.wordpress.com/mshots/v1/',
-			"url" => 'http://www.catswhocode.com',
+			"url" => 'http://www.webgalli.com',
 			"alt" => 'My image',
 			"w" => '400', // width
 			"h" => '300' // height
@@ -88,8 +89,8 @@ function webpage_snaps($atts, $content = null) {
 elgg_add_shortcode("snap", "webpage_snaps");
 
 /**
- * Google Maps
- * Usage : [googlemap width="600" height="300" src="http://maps.google.com/maps?q=Heraklion,+Greece&hl=en&ll=35.327451,25.140495&spn=0.233326,0.445976& sll=37.0625,-95.677068&sspn=57.161276,114.169922& oq=Heraklion&hnear=Heraklion,+Greece&t=h&z=12"]
+ * Embed Google Maps
+ * [googlemap width="600" height="300" src="http://maps.google.com/maps?q=Heraklion,+Greece&hl=en&ll=35.327451,25.140495&spn=0.233326,0.445976& sll=37.0625,-95.677068&sspn=57.161276,114.169922& oq=Heraklion&hnear=Heraklion,+Greece&t=h&z=12"]
  */
 function googlemap_function($atts, $content = null) {
    extract(elgg_shortcode_atts(array(
@@ -102,20 +103,16 @@ function googlemap_function($atts, $content = null) {
 elgg_add_shortcode("googlemap", "googlemap_function");
 
 /**
- * Google Maps
- * Usage : [youtube value="http://www.youtube.com/watch?v=1aBSPn2P9bg"]
- * Optional attributes: width, height, name, allowFullScreen, allowScriptAccess, controls  
+ * Embed Youtbe Videos
+ * [youtube url="http://www.youtube.com/watch?v=1aBSPn2P9bg"]
  */
 function youtube($atts) {
     extract(elgg_shortcode_atts(array(
-        "value" => 'http://',
+        "url" => 'http://',
         "width" => '475',
         "height" => '350',
-        "name"=> 'movie',
-        "allowFullScreen" => 'true',
-        "allowScriptAccess"=>'always',
-        "controls"=> '1',
     ), $atts));
-    return '<object style="height: '.$height.'px; width: '.$width.'px"><param name="'.$name.'" value="'.$value.'"><param name="allowFullScreen" value="'.$allowFullScreen.'"><param name="allowScriptAccess" value="'.$allowScriptAccess.'"><embed src="'.$value.'" type="application/x-shockwave-flash" allowfullscreen="'.$allowFullScreen.'" allowScriptAccess="'.$allowScriptAccess.'" width="'.$width.'" height="'.$height.'"></object>';
+    return "<object width='$width' height='$height'>
+	<param name='movie' value='$url'></param><param name='allowFullScreen' value='true'></param><param name='allowscriptaccess' value='always'></param><embed src='$url' type='application/x-shockwave-flash' width='$width' height='$height' allowscriptaccess='always' allowfullscreen='true'></embed></object>";
 }
 elgg_add_shortcode("youtube", "youtube");

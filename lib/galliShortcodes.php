@@ -103,16 +103,27 @@ function googlemap_function($atts, $content = null) {
 elgg_add_shortcode("googlemap", "googlemap_function");
 
 /**
- * Embed Youtbe Videos
- * [youtube url="http://www.youtube.com/watch?v=1aBSPn2P9bg"]
+ * Embed Videos
+ * [video site="youtube" id="dQw4w9WgXcQ" w="600" h="340"]
  */
-function youtube($atts) {
-    extract(elgg_shortcode_atts(array(
-        "url" => 'http://',
-        "width" => '475',
-        "height" => '350',
-    ), $atts));
-    return "<object width='$width' height='$height'>
-	<param name='movie' value='$url'></param><param name='allowFullScreen' value='true'></param><param name='allowscriptaccess' value='always'></param><embed src='$url' type='application/x-shockwave-flash' width='$width' height='$height' allowscriptaccess='always' allowfullscreen='true'></embed></object>";
+function video_sc($atts, $content=null) {
+	extract(
+		elgg_shortcode_atts(array(
+			'site' => 'youtube',
+			'id' => '',
+			'w' => '600',
+			'h' => '370'
+		), $atts)
+	);
+	if ( $site == "youtube" ) { $src = 'http://www.youtube-nocookie.com/embed/'.$id; }
+	else if ( $site == "vimeo" ) { $src = 'http://player.vimeo.com/video/'.$id; }
+	else if ( $site == "dailymotion" ) { $src = 'http://www.dailymotion.com/embed/video/'.$id; }
+	else if ( $site == "yahoo" ) { $src = 'http://d.yimg.com/nl/vyc/site/player.html#vid='.$id; }
+	else if ( $site == "bliptv" ) { $src = 'http://a.blip.tv/scripts/shoggplayer.html#file=http://blip.tv/rss/flash/'.$id; }
+	else if ( $site == "veoh" ) { $src = 'http://www.veoh.com/static/swf/veoh/SPL.swf?videoAutoPlay=0&permalinkId='.$id; }
+	else if ( $site == "viddler" ) { $src = 'http://www.viddler.com/simple/'.$id; }
+	if ( $id != '' ) {
+		return '<iframe width="'.$w.'" height="'.$h.'" src="'.$src.'" class="vid iframe-'.$site.'"></iframe>';
+	}
 }
-elgg_add_shortcode("youtube", "youtube");
+elgg_add_shortcode('video','video_sc');
